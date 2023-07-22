@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controllers/cart_controller.dart';
 import 'package:food_delivery/controllers/popular_product_contoller.dart';
+import 'package:food_delivery/pages/cart/cart_page.dart';
 import 'package:food_delivery/pages/home/main_food_page.dart';
 import 'package:food_delivery/utils/app_constants.dart';
 import 'package:food_delivery/utils/colors.dart';
@@ -59,36 +60,38 @@ class PopularFoodDetail extends StatelessWidget {
                   builder: (controller) {
                     return Stack(
                       children: [
-
-AppIcon(icon: Icons.shopping_cart_outlined),
-Get.find<PopularProductController>().totalItems>=1?
-Positioned(
-  right: 0,
-  top: 0,
-  child: AppIcon(icon: Icons.circle,size: 20, iconColor: Colors.transparent,backgroundColor: AppColors.mainColor,))
-:
-Container(
-
-),
-Get.find<PopularProductController>().totalItems>=1?
-Positioned(
-right: 3,
-top: 3,
-  child:BigText(text: Get.find<PopularProductController>().totalItems.toString(),size: 12,color: Colors.white,)  )
-:
-Container(
-
-)
-
-],
+                        AppIcon(icon: Icons.shopping_cart_outlined),
+                        Get.find<PopularProductController>().totalItems >= 1
+                            ? Positioned(
+                                right: 0,
+                                top: 0,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(() => CartPage());
+                                    },
+                                    child: AppIcon(
+                                      icon: Icons.circle,
+                                      size: 20,
+                                      iconColor: Colors.transparent,
+                                      backgroundColor: AppColors.mainColor,
+                                    )))
+                            : Container(),
+                        Get.find<PopularProductController>().totalItems >= 1
+                            ? Positioned(
+                                right: 3,
+                                top: 3,
+                                child: BigText(
+                                  text: Get.find<PopularProductController>()
+                                      .totalItems
+                                      .toString(),
+                                  size: 12,
+                                  color: Colors.white,
+                                ))
+                            : Container()
+                      ],
                     );
                   },
                 ),
-
-
-                
-
-
               ],
             )),
         //introduction of food
@@ -176,22 +179,22 @@ Container(
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: Dimension.height15,
-                    horizontal: Dimension.width20),
-                child: GestureDetector(
-                  onTap: () {
-                    popularProduct.addItem(product);
-                  },
+              GestureDetector(
+                onTap: () {
+                  popularProduct.addItem(product);
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: Dimension.height15,
+                      horizontal: Dimension.width20),
                   child: BigText(
                     text: "\$ ${product.price!} | Add to cart",
                     color: Colors.white,
                   ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimension.radius20),
+                      color: AppColors.mainColor),
                 ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimension.radius20),
-                    color: AppColors.mainColor),
               )
             ],
           ),
